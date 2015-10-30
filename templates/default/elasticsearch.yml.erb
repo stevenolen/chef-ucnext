@@ -1,0 +1,7 @@
+# Managed by Chef for node <%= node['fqdn'] -%>.
+
+hosts:
+  - host: <%= @es_host %>
+    port: <%= @es_port %>
+
+index: '<%= @es_index %>'
