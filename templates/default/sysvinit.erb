@@ -19,7 +19,7 @@ start() {
 
   # Start thin
   echo -n $"Starting $NAME: "
-  daemon "PATH=<%= @ruby_exec_path %>:$PATH RAILS_ENV=$RAILS_ENV bundle exec thin start -d --max-conns=10000 -p <%= @port %> -P $PID"
+  daemon "PATH=<%= @ruby_exec_path %>:$PATH RAILS_ENV=$RAILS_ENV bundle exec thin start -d -u <%= @config.run_user %> -g <%= @config.run_group %> -p <%= @port %> -P $PID"
   thin=$?
   [ $thin -eq 0 ] && touch $LOCK
   echo

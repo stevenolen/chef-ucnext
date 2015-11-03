@@ -11,6 +11,8 @@ class Chef
       attribute :repo, kind_of: String, default: 'https://github.com/universityofcalifornia/next.git'
       attribute :revision, kind_of: String, default: '1.0.36'
       attribute :port, kind_of: Integer, default: 3000
+      attribute :run_user, kind_of: String, default: 'ucnext'
+      attribute :run_group, kind_of: String, default: 'ucnext'
       attribute :db_host, kind_of: String, default: '127.0.0.1'
       attribute :db_port, kind_of: Integer, default: 3306
       attribute :db_name, kind_of: String, default: 'next' # set to name attr?

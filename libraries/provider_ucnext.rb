@@ -15,6 +15,17 @@ class Chef
       include UcNextCookbook::Helpers
 
       action :create do
+        # user
+        group "#{new_resource.name} :create ucnext" do
+          group_name new_resource.run_group
+          action :create
+        end
+
+        user "#{new_resource.name} :create ucnext" do
+          username new_resource.run_user
+          gid 'ucnext' if new_resource.run_user == 'ucnext'
+          action :create
+        end
         # init file for service, abstract to support deb and rhel7
         template "/etc/init.d/ucnext-#{new_resource.name}" do
           owner 'root'
@@ -23,6 +34,7 @@ class Chef
           source 'sysvinit.erb'
           cookbook 'ucnext'
           variables(
+            config: new_resource,
             name: new_resource.name,
             app_path: "#{new_resource.deploy_path}/current",
             port: new_resource.port,
@@ -35,6 +47,8 @@ class Chef
         %w(config pids log).each do |d|
           directory "#{new_resource.deploy_path}/shared/#{d}" do
             recursive true
+            owner new_resource.run_user
+            group new_resource.run_group
           end
         end
 
@@ -42,6 +56,8 @@ class Chef
         template "#{new_resource.deploy_path}/shared/config/database.yml" do
           source 'database.yml.erb'
           cookbook 'ucnext'
+          owner new_resource.run_user
+          group new_resource.run_group
           variables(
             db_password: new_resource.db_password,
             db_user: new_resource.db_user,
@@ -56,6 +72,8 @@ class Chef
         template "#{new_resource.deploy_path}/shared/config/secrets.yml" do
           source 'secrets.yml.erb'
           cookbook 'ucnext'
+          owner new_resource.run_user
+          group new_resource.run_group
           variables(
             secret: new_resource.secret
           )
@@ -66,6 +84,8 @@ class Chef
         template "#{new_resource.deploy_path}/shared/config/elasticsearch.yml" do
           source 'elasticsearch.yml.erb'
           cookbook 'ucnext'
+          owner new_resource.run_user
+          group new_resource.run_group
           variables(
             es_host: new_resource.es_host,
             es_port: new_resource.es_port,
@@ -80,7 +100,7 @@ class Chef
           package pkg
         end
 
-        # farm out to chef deploy. TODO: make an attribute that only does this once.
+        # farm out to chef deploy.
         # note namespace "new resource" causes some weird stuff here.
         computed_path = path_plus_bundler
         ucnext_resource = new_resource
@@ -88,6 +108,8 @@ class Chef
           deploy_to ucnext_resource.deploy_path
           repo ucnext_resource.repo
           revision ucnext_resource.revision
+          user ucnext_resource.run_user
+          group ucnext_resource.run_group
           symlink_before_migrate(
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
