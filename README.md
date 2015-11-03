@@ -17,6 +17,8 @@ ucnext 'default' do
   # repo 'https://github.com/universityofcalifornia/next.git'
   # revision '1.0.36'
   # port 3000
+  # run_user 'ucnext' # wont add to group unless default
+  # run_group 'ucnext'
   # db_host '127.0.0.1'
   # db_port 3306
   # db_name 'next' # set to name attr?
