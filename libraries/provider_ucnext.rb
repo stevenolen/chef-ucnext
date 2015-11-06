@@ -94,6 +94,14 @@ class Chef
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
+        template "#{new_resource.deploy_path}/shared/config/production.yml" do
+          source 'production.yml.erb'
+          cookbook 'ucnext'
+          owner new_resource.run_user
+          group new_resource.run_group
+          notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
+        end
+
         # required headers for mysql2, imagemagick gem (which gets installed with bundler below)
         # not OS compatible yet, refactor
         %w(mysql-devel ImageMagick ImageMagick-devel sqlite sqlite-devel).each do |pkg|
@@ -111,6 +119,7 @@ class Chef
           user ucnext_resource.run_user
           group ucnext_resource.run_group
           symlink_before_migrate(
+            'config/production.yml' => 'environments/production.yml',
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
