@@ -142,7 +142,7 @@ class Chef
           end
           migrate true
           migration_command "RAILS_ENV=#{ucnext_resource.rails_env} bundle exec rake db:migrate"
-          purge_before_symlink %w(log tmp/pids public/system config/database.yml config/secrets.yml)
+          purge_before_symlink %w(log tmp/pids public/system config/database.yml config/secrets.yml config/environments/production.yml)
           before_symlink do
             execute 'db:seed' do
               environment 'PATH' => computed_path
