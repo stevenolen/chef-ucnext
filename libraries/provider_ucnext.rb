@@ -119,7 +119,7 @@ class Chef
           user ucnext_resource.run_user
           group ucnext_resource.run_group
           symlink_before_migrate(
-            'config/production.yml' => 'environments/production.yml',
+            'config/production.yml' => 'config/environments/production.yml',
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
