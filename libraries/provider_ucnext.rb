@@ -17,6 +17,7 @@ class Chef
       action :create do
         # user
         group "#{new_resource.name} :create ucnext" do
+          append true
           group_name new_resource.run_group
           action :create
         end
