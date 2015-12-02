@@ -153,6 +153,10 @@ class Chef
               not_if { ::File.exist?("#{ucnext_resource.deploy_path}/shared/.seeded") }
             end
           end
+          symlinks(
+            'log' => 'log',
+            'tmp/pids' => 'tmp/pids'
+          )
           restart_command "service ucnext-#{ucnext_resource.name} restart"
         end
 
