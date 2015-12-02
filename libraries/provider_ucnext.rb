@@ -45,7 +45,7 @@ class Chef
         end
 
         # add shared dirs for chef deploy
-        %w(config pids log).each do |d|
+        %w(config pids log uploads).each do |d|
           directory "#{new_resource.deploy_path}/shared/#{d}" do
             recursive true
             owner new_resource.run_user
@@ -124,6 +124,7 @@ class Chef
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
+            'uploads' => 'public/uploads',
             'bundle' => '.bundle'
           )
           before_migrate do
@@ -143,7 +144,7 @@ class Chef
           end
           migrate true
           migration_command "RAILS_ENV=#{ucnext_resource.rails_env} bundle exec rake db:migrate"
-          purge_before_symlink %w(log tmp/pids public/system config/database.yml config/secrets.yml config/environments/production.yml)
+          purge_before_symlink %w(log tmp/pids config/database.yml config/secrets.yml config/environments/production.yml)
           before_symlink do
             execute 'db:seed' do
               environment 'PATH' => computed_path
