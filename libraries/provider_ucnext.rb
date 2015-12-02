@@ -124,7 +124,7 @@ class Chef
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
-            'uploads' => 'public/uploads',
+            'uploads' => 'public/',
             'bundle' => '.bundle'
           )
           before_migrate do
