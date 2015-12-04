@@ -103,6 +103,19 @@ class Chef
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
+        template "#{new_resource.deploy_path}/shared/config/smtp.yml" do
+          source 'smtp.yml.erb'
+          cookbook 'ucnext'
+          owner new_resource.run_user
+          group new_resource.run_group
+          variables(
+            smtp_host: new_resource.smtp_host,
+            smtp_username: new_resource.smtp_username,
+            smtp_password: new_resource.smtp_password
+          )
+          notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
+        end
+
         # required headers for mysql2, imagemagick gem (which gets installed with bundler below)
         # not OS compatible yet, refactor
         %w(mysql-devel ImageMagick ImageMagick-devel sqlite sqlite-devel).each do |pkg|
@@ -124,6 +137,7 @@ class Chef
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
+            'config/smtp.yml' => 'config/smtp.yml',
             'uploads' => 'public/',
             'bundle' => '.bundle'
           )

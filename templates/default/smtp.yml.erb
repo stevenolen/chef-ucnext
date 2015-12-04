@@ -1,0 +1,8 @@
+# Managed by Chef for node <%= node['fqdn'] -%>.
+
+smtp_host: <%= @smtp_host %>
+smtp_port: 587
+smtp_username: <%= @smtp_username %>
+smtp_password: <%= @smtp_password %>
+smtp_authentication: plain
+smtp_enable_starttls_auto: true

@@ -21,6 +21,9 @@ class Chef
       attribute :es_host, kind_of: String, default: '127.0.0.1'
       attribute :es_port, kind_of: Integer, default: 9200
       attribute :es_index, kind_of: String, default: 'next'
+      attribute :smtp_host, kind_of: String, default: 'localhost'
+      attribute :smtp_username, kind_of: String, default: ''
+      attribute :smtp_password, kind_of: String, default: ''
       attribute :deploy_path, kind_of: String, required: true
       attribute :bundler_path, kind_of: String, default: nil
       attribute :rails_env, kind_of: String, default: 'production'
