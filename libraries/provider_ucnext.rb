@@ -169,7 +169,7 @@ class Chef
           end
           symlinks(
             'log' => 'log',
-            'tmp/pids' => 'tmp/pids'
+            'pids' => 'tmp/pids'
           )
           restart_command "service ucnext-#{ucnext_resource.name} restart"
         end
