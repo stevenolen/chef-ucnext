@@ -45,6 +45,12 @@ class Chef
         end
 
         # add shared dirs for chef deploy
+        directory "#{new_resource.deploy_path}/shared" do
+          recursive true
+          owner new_resource.run_user
+          group new_resource.run_group
+        end
+
         %w(config pids log uploads).each do |d|
           directory "#{new_resource.deploy_path}/shared/#{d}" do
             recursive true
