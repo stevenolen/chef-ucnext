@@ -28,6 +28,7 @@ class Chef
       attribute :bundler_path, kind_of: String, default: nil
       attribute :rails_env, kind_of: String, default: 'production'
       attribute :secret, kind_of: String, required: true
+      attribute :shib_secret, kind_of: String, default: nil
     end
   end
 end

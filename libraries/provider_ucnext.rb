@@ -100,6 +100,9 @@ class Chef
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
+          variables(
+            secret: new_resource.shib_secret
+          )
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
