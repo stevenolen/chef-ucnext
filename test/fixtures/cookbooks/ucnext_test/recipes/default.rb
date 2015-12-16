@@ -22,6 +22,7 @@ end
 # actual casa service block
 ucnext 'default' do
   revision 'master'
+  es_host 'elasticsearch' # /etc/hosts from linked docker container!
   secret '0d7e46be6a8fd3a1e4cc3b11d8a09a03d7c948f3dc772119cce2'
   deploy_path '/var/next'
   bundler_path '/usr/local/rbenv/shims'

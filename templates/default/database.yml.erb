@@ -1,6 +1,6 @@
 # Managed by Chef for node <%= node['fqdn'] -%>.
 
-production:
+<%= @rails_env.downcase %>:
   adapter: mysql2
   encoding: utf8
   database: <%= @db_name %>

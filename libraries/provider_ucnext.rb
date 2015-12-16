@@ -66,6 +66,7 @@ class Chef
           owner new_resource.run_user
           group new_resource.run_group
           variables(
+            rails_env: new_resource.rails_env,
             db_password: new_resource.db_password,
             db_user: new_resource.db_user,
             db_name: new_resource.db_name,
@@ -101,8 +102,8 @@ class Chef
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
-        template "#{new_resource.deploy_path}/shared/config/production.yml" do
-          source 'production.yml.erb'
+        template "#{new_resource.deploy_path}/shared/config/#{new_resource.rails_env}.yml" do
+          source 'environment.yml.erb'
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
