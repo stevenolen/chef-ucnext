@@ -29,6 +29,7 @@ class Chef
       attribute :rails_env, kind_of: String, default: 'production'
       attribute :secret, kind_of: String, required: true
       attribute :shib_secret, kind_of: String, default: nil
+      attribute :shib_client_name, kind_of: String, default: nil
     end
   end
 end

@@ -108,6 +108,7 @@ class Chef
           owner new_resource.run_user
           group new_resource.run_group
           variables(
+            client_name: new_resource.shib_client_name,
             secret: new_resource.shib_secret
           )
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
