@@ -83,6 +83,7 @@ class Chef
           owner new_resource.run_user
           group new_resource.run_group
           variables(
+            rails_env: new_resource.rails_env,
             secret: new_resource.secret
           )
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
