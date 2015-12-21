@@ -145,7 +145,7 @@ class Chef
           user ucnext_resource.run_user
           group ucnext_resource.run_group
           symlink_before_migrate(
-            'config/production.yml' => 'config/environments/production.yml',
+            "config/#{ucnext_resource.rails_env}.yml" => "config/environments/#{ucnext_resource.rails_env}.yml",
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
@@ -170,7 +170,7 @@ class Chef
           end
           migrate true
           migration_command "RAILS_ENV=#{ucnext_resource.rails_env} bundle exec rake db:migrate"
-          purge_before_symlink %w(log tmp/pids config/database.yml config/secrets.yml config/environments/production.yml)
+          purge_before_symlink %W(log tmp/pids config/database.yml config/secrets.yml config/environments/#{ucnext_resource.rails_env}.yml)
           before_symlink do
             execute 'db:seed' do
               environment 'PATH' => computed_path
