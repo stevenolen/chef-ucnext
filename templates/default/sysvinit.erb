@@ -4,12 +4,12 @@
 # Managed by Chef for node <%= node['fqdn'] -%>.
 
 # chkconfig: 2345 82 55
-# processname: <%= @name %>
+# processname: <%= @config.name %>
 # description: Runs thin for rails.
-NAME=<%= @name %>
+NAME=<%= @config.name %>
 . /etc/rc.d/init.d/functions
-RAILS_ENV=<%= @rails_env %>
-APP_PATH=<%= @app_path %>
+RAILS_ENV=<%= @config.rails_env %>
+APP_PATH=<%= "#{@config.deploy_path}/current" %>
 
 PID=$APP_PATH/tmp/pids/$NAME.pid
 LOCK=/var/lock/subsys/$NAME
@@ -19,7 +19,7 @@ start() {
 
   # Start thin
   echo -n $"Starting $NAME: "
-  daemon "PATH=<%= @ruby_exec_path %>:$PATH RAILS_ENV=$RAILS_ENV bundle exec thin start -d -u <%= @config.run_user %> -g <%= @config.run_group %> -p <%= @port %> -P $PID"
+  daemon "PATH=<%= @config.bundler_path %>:$PATH RAILS_ENV=$RAILS_ENV bundle exec thin start -d -u <%= @config.run_user %> -g <%= @config.run_group %> -p <%= @config.port %> -P $PID"
   thin=$?
   [ $thin -eq 0 ] && touch $LOCK
   echo

@@ -34,14 +34,7 @@ class Chef
           mode '0755'
           source 'sysvinit.erb'
           cookbook 'ucnext'
-          variables(
-            config: new_resource,
-            name: new_resource.name,
-            app_path: "#{new_resource.deploy_path}/current",
-            port: new_resource.port,
-            rails_env: new_resource.rails_env,
-            ruby_exec_path: new_resource.bundler_path
-          )
+          variables(config: new_resource)
         end
 
         # add shared dirs for chef deploy
@@ -65,14 +58,7 @@ class Chef
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
-          variables(
-            rails_env: new_resource.rails_env,
-            db_password: new_resource.db_password,
-            db_user: new_resource.db_user,
-            db_name: new_resource.db_name,
-            db_host: new_resource.db_host,
-            db_port: new_resource.db_port
-          )
+          variables(config: new_resource)
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
@@ -82,10 +68,7 @@ class Chef
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
-          variables(
-            rails_env: new_resource.rails_env,
-            secret: new_resource.secret
-          )
+          variables(config: new_resource)
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
@@ -95,11 +78,7 @@ class Chef
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
-          variables(
-            es_host: new_resource.es_host,
-            es_port: new_resource.es_port,
-            es_index: new_resource.es_index
-          )
+          variables(config: new_resource)
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
@@ -108,10 +87,7 @@ class Chef
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
-          variables(
-            client_name: new_resource.shib_client_name,
-            secret: new_resource.shib_secret
-          )
+          variables(config: new_resource)
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
@@ -120,11 +96,7 @@ class Chef
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
-          variables(
-            smtp_host: new_resource.smtp_host,
-            smtp_username: new_resource.smtp_username,
-            smtp_password: new_resource.smtp_password
-          )
+          variables(config: new_resource)
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
