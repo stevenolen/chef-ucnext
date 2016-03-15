@@ -15,6 +15,12 @@ mysql_service 'default' do
   action [:create, :start]
 end
 
+mysql_config 'utf8mb4' do
+  source 'utf8mb4.erb'
+  notifies :restart, 'mysql_service[default]'
+  action :create
+end
+
 execute 'add test db info' do
   command "sleep 5s; /usr/bin/mysql -h 127.0.0.1 -uroot -pchangeme -e \"CREATE DATABASE IF NOT EXISTS next; GRANT ALL ON next.* to 'next' identified by 'tsktsk';\""
 end
