@@ -2,7 +2,8 @@
 
 <%= @config.rails_env.downcase %>:
   adapter: mysql2
-  encoding: utf8
+  encoding: utf8mb4
+  collation: utf8mb4_general_ci
   database: <%= @config.db_name %>
   username: <%= @config.db_user %>
   password: <%= @config.db_password %>
