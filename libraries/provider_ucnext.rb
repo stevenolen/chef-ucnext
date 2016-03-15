@@ -82,8 +82,8 @@ class Chef
           notifies :restart, "service[ucnext-#{new_resource.name}]", :delayed
         end
 
-        template "#{new_resource.deploy_path}/shared/config/#{new_resource.rails_env}.yml" do
-          source 'environment.yml.erb'
+        template "#{new_resource.deploy_path}/shared/config/auth.yml" do
+          source 'auth.yml.erb'
           cookbook 'ucnext'
           owner new_resource.run_user
           group new_resource.run_group
@@ -117,7 +117,7 @@ class Chef
           user ucnext_resource.run_user
           group ucnext_resource.run_group
           symlink_before_migrate(
-            "config/#{ucnext_resource.rails_env}.yml" => "config/environments/#{ucnext_resource.rails_env}.yml",
+            'config/auth.yml' => 'config/auth.yml',
             'config/database.yml' => 'config/database.yml',
             'config/elasticsearch.yml' => 'config/elasticsearch.yml',
             'config/secrets.yml' => 'config/secrets.yml',
@@ -142,7 +142,7 @@ class Chef
           end
           migrate true
           migration_command "RAILS_ENV=#{ucnext_resource.rails_env} bundle exec rake db:migrate"
-          purge_before_symlink %W(log tmp/pids config/database.yml config/secrets.yml config/environments/#{ucnext_resource.rails_env}.yml)
+          purge_before_symlink %w(log tmp/pids config/database.yml config/secrets.yml config/auth.yml)
           before_symlink do
             execute 'db:seed' do
               environment 'PATH' => computed_path

@@ -1,0 +1,15 @@
+auth:
+  route: /auth/local/new
+  allow_local: true
+oauth2:
+  provider:
+    shibboleth:
+      enabled: true
+      key: <%= @config.shib_client_name %>
+      secret: <%= @config.shib_secret %>
+      properties:
+        authorize_url: /oauth2/authorize
+        token_url: /oauth2/access_token
+        site: https://ucnext.org
+      routes:
+        get_user: /oauth2/user
