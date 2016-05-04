@@ -37,6 +37,15 @@ class Chef
           variables(config: new_resource)
         end
 
+        template "/etc/ImageMagick/policy.xml" do
+          owner 'root'
+          group 'root'
+          mode '0755'
+          source 'image-magick-policy.xml.erb'
+          cookbook 'ucnext'
+          variables(config: new_resource)
+        end
+
         # add shared dirs for chef deploy
         directory "#{new_resource.deploy_path}/shared" do
           recursive true
